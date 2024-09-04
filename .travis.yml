@@ -1,48 +1,49 @@
 language: php
 
 php:
-  - 5.3
   - 5.4
   - 5.5
+  - 5.6
+  - 7.0
 
-matrix:
-  allow_failures:
-    - php: 5.5
-
+sudo: false
 
 env:
-  - CAKE_VERSION=2.2.8 DB=mysql
-  - CAKE_VERSION=master DB=mysql
-  - CAKE_VERSION=2.4 DB=mysql
+  global:
+    - DEFAULT=1
+    - DB=sqlite db_dsn='sqlite:///:memory:'
+
+matrix:
+  fast_finish: true
+
+  include:
+  - php: 5.4
+    env: PHPCS=1 DEFAULT=0
+
+  - php: 5.4
+    env: COVERALLS=1 DEFAULT=0 DB=mysql db_dsn='mysql://travis@0.0.0.0/cakephp_test'
+
+services:
+  - redis-server
+
+install:
+  - composer self-update
+  - composer install --prefer-dist --no-interaction --dev
 
 before_script:
-  - wget https://github.com/nicolasff/phpredis/archive/2.2.3.zip -O php-redis.zip
-  - unzip php-redis.zip
-  - cd phpredis-2.2.3/
-  - phpize
-  - ./configure
-  - make && make install
   - echo "extension = redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - cd ../
-  - rm -R phpredis-2.2.3/
-  - git clone git://github.com/cakephp/cakephp ../cakephp && cd ../cakephp && git checkout $CAKE_VERSION
-  - cp -R ../Cake-Resque app/Plugin/CakeResque
-  - chmod -R 777 ../cakephp/app/tmp
-  - set +H
-  - echo "
+  - sh -c "if [ '$PHPCS' = '1' ]; then composer require cakephp/cakephp-codesniffer:dev-master; fi"
+  - sh -c "if [ '$COVERALLS' = '1' ]; then composer require --dev satooshi/php-coveralls:dev-master; fi"
+  - sh -c "if [ '$COVERALLS' = '1' ]; then mkdir -p build/logs; fi"
 
-    CakePlugin::loadAll(array('CakeResque' => array('bootstrap' => true)));" >> ../cakephp/app/Config/bootstrap.php
-  - cd app/Plugin/CakeResque
-  - composer self-update
-  - composer install --prefer-source --dev
-  - pear channel-discover pear.bovigo.org
-  - pear install bovigo/vfsStream-beta
   - phpenv rehash
-  - cd ../../Console
+  - set +H
 
 script:
-  - mkdir -p build/logs
-  - ./cake test CakeResque AllCakeResque --stderr --configuration ../Plugin/CakeResque/Test/phpunit.xml
+  - sh -c "if [ '$DEFAULT' = '1' ]; then phpunit --stderr; fi"
+  - sh -c "if [ '$PHPCS' = '1' ]; then ./vendor/bin/phpcs -p --extensions=php --standard=vendor/cakephp/cakephp-codesniffer/CakePHP ./src ./tests; fi"
+  - sh -c "if [ '$COVERALLS' = '1' ]; then phpunit --stderr --coverage-clover build/logs/clover.xml; fi"
+  - sh -c "if [ '$COVERALLS' = '1' ]; then php vendor/bin/coveralls -c .coveralls.yml -v; fi"
 
-after_script:
-  - php ../Plugin/CakeResque/vendor/bin/coveralls -v
+notifications:
+  email: false
