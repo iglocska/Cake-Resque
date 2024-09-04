@@ -1,19 +1,25 @@
 
 {
-  "name": "kamisama/cake-resque",
-  "description": "A CakePHP plugin for creating background jobs with Resque",
-  "version": "4.1.2",
+  "name": "iglocska/cake-resque",
+  "description": "A fork of Cake-Resque by Kamisama, used by MISP (adding partial monolog 2.x support)",
+  "version": "4.1.3",
   "keywords": [
     "php-resque",
     "resque",
     "cli",
     "cakephp",
     "background jobs",
-    "scheduled jobs"
+    "scheduled jobs",
+    "misp"
   ],
-  "homepage": "http://cakeresque.kamisama.me",
+  "homepage": "http://github.com/iglocska/Cake-resque",
   "type": "cakephp-plugin",
   "authors": [
+    {
+      "name": "Andras Iklody",
+      "email": "andras.iklody+github@gmail.com",
+      "homepage": "https://misp-project.org"
+    },
     {
       "name": "Wan Chen",
       "email": "kami@kamisama.me",
@@ -23,9 +29,9 @@
   ],
   "license": "MIT",
   "require": {
-    "php": ">=5.3.0",
+    "php": ">=7.2.0",
     "composer/installers": "*",
-    "kamisama/php-resque-ex": ">=1.2.4",
+    "iglocska/php-resque-ex": ">=1.4.0",
     "kamisama/php-resque-ex-scheduler": ">=1.1.1",
     "kamisama/resque-status": ">=0.0.1"
   },
@@ -33,9 +39,9 @@
     "mikey179/vfsStream": ">=1.2.0"
   },
   "support": {
-    "email": "kami@kamisama.me",
-    "issues": "https://github.com/kamisama/Cake-Resque/issues",
-    "source": "https://github.com/kamisama/Cake-Resque"
+    "email": "andras.iklody+github@gmail.com",
+    "issues": "https://github.com/iglocska/Cake-Resque/issues",
+    "source": "https://github.com/iglocska/Cake-Resque"
   },
   "autoload": {
     "psr-4": {
