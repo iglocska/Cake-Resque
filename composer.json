@@ -1,7 +1,7 @@
 {
   "name": "iglocska/cake-resque",
   "description": "A fork of Cake-Resque by Kamisama, used by MISP (adding partial monolog 2.x support)",
-  "version": "4.1.3",
+  "version": "4.2",
   "keywords": [
     "php-resque",
     "resque",
