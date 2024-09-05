@@ -30,7 +30,7 @@
   "require": {
     "php": ">=7.2.0",
     "composer/installers": "*",
-    "iglocska/php-resque-ex": ">=1.4.0",
+    "iglocska/php-resque-ex": ">=1.4.1",
     "iglocska/php-resque-ex-scheduler": ">=1.1.1",
     "iglocska/resque-status": ">=0.0.1"
   },
