@@ -1,7 +1,7 @@
 {
   "name": "iglocska/cake-resque",
   "description": "A fork of Cake-Resque by Kamisama, used by MISP (adding partial monolog 2.x support)",
-  "version": "4.2.0",
+  "version": "4.2.1",
   "keywords": [
     "php-resque",
     "resque",
@@ -31,8 +31,8 @@
     "php": ">=7.2.0",
     "composer/installers": "*",
     "iglocska/php-resque-ex": ">=1.4.0",
-    "kamisama/php-resque-ex-scheduler": ">=1.1.1",
-    "kamisama/resque-status": ">=0.0.1"
+    "iglocska/php-resque-ex-scheduler": ">=1.1.1",
+    "iglocska/resque-status": ">=0.0.1"
   },
   "require-dev": {
     "mikey179/vfsstream": ">=1.2.0"
